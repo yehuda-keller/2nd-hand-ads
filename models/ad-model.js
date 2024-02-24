@@ -10,19 +10,13 @@ const { DataTypes, Model } = require('sequelize');
  */
 module.exports = (sequelize) => {
     class Ad extends Model {
-        static associate(models) {
-            // define association here
-            Ad.belongsTo(models.User, {
-                foreignKey: 'user_id'
-            });
-        }
     }
 
     /**
      * Here we define the model attributes (fields)
      */
     Ad.init({
-            title: {
+        title: {
             type: DataTypes.STRING(20),
             allowNull: false,
             validate: {
@@ -31,9 +25,9 @@ module.exports = (sequelize) => {
         },
         description: {
             type: DataTypes.STRING(200),
-            allowNull: false,
+            allowNull: true,
             validate: {
-                len: [5, 200]
+                len: [0, 200]
             }
         },
         price: {
@@ -45,7 +39,7 @@ module.exports = (sequelize) => {
         },
         phoneNumber: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },
         email: {
             type: DataTypes.STRING,
@@ -54,9 +48,9 @@ module.exports = (sequelize) => {
                 isEmail: true
             }
         },
-        approved:{
-                type: DataTypes.BOOLEAN,
-                defaultValue: false,
+        approved: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
         },
     }, {
         sequelize,

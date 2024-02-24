@@ -1,9 +1,12 @@
 const express = require('express');
+const db = require('../models');
 const router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { user: req.session.user });
+router.get('/', async function (req, res, next) {
+  const ads = await db.Ad.findAll({ where: { approved: true } });
+
+  res.render('index', { ads, user: null });
 });
 
 

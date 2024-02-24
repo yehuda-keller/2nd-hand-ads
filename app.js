@@ -12,6 +12,7 @@ const usersRouter = require('./routes/users');
 const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
 const additionRouter = require('./routes/add-ad');
+const adminRouter = require('./routes/admin');
 
 
 
@@ -46,6 +47,7 @@ app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/add-ad', additionRouter);
+app.use('/admin', adminRouter);
 
 const db = require('./models');
 

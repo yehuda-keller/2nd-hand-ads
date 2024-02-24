@@ -1,23 +1,43 @@
 const express = require('express');
 const db = require("../models");
-const isLoggedIn = require('../middleware/is-logged-in');
+
 
 const router = express.Router();
 
-router.use(isLoggedIn);
-router.get('/', function(req, res, next) {
-    res.render('add-ad');
+function mapValidationErrorToField(error) {
+    //Validation error: Validation len on description failed
+    if (error.message.startsWith('Validation error:')) {
+        switch (true) {
+            case error.message.includes('title'):
+                return { title: 'Title must be between 5 and 20 characters' };
+            case error.message.includes('description'):
+                return { description: 'Description must be between 5 and 200 characters' };
+            case error.message.includes('price'):
+                return { price: 'Price must be a positive number' };
+            case error.message.includes('email'):
+                return { email: 'Email must be a valid email' };
+            case error.message.includes('phoneNumber'):
+                return { phoneNumber: 'Phone number must be a valid phone number' };
+            default:
+                return null;
+        }
+    }
+
+}
+
+router.get('/', function (req, res, next) {
+    res.render('add-ad', { error: null });
 });
 
-router.post('/', async function(req, res, next) {
+router.post('/', async function (req, res, next) {
     console.log(req.body);
     try {
-        console.log(req.session.user);
-        const ad = await db.Ad.create({...req.body,user_id: req.session.user.id});
+        const ad = await db.Ad.create(req.body);
         return res.redirect('/');
     } catch (error) {
         console.log('Error: ', error);
-        return res.redirect('/add-ad');
+        const fieldValidtionError = mapValidationErrorToField(error);
+        return res.render('add-ad', { error: fieldValidtionError });
     }
 });
 
