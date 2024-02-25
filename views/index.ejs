@@ -13,32 +13,43 @@
 
 <body>
   <div>
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
-        <div class="col-12">
+        <div class="col-12 d-none d-sm-block">
           <img src="/images/logo.jpeg" class="img-fluid d-block mx-auto" width="200" height="200">
         </div>
       </div>
       <div>
         <nav class="navbar navbar-expand-md navbar-light bg-light">
           <div class="container-fluid">
-            <div class="d-flex align-items-center">
-              <a type="button" class="btn btn-outline-dark  me-2" me-2 href="/">Home</a>
-              <a type="button" class="btn btn-outline-dark  me-2" href="/add-ad">Add Ad</a>
-              <% if(user){ %>
-                <a class="btn btn-outline-dark me-2" href="/logout">
-                  Logout <i class="bi bi-box-arrow-right"></i>
-                </a>
-                <% }else{ %>
-                  <a class="btn btn-outline-dark me-2" href="/login">
-                    Admin Login <i class="bi bi-box-arrow-in-right"></i>
+            <a class="navbar-brand" href="/">Home page</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+              <div class="navbar-nav me-auto">
+                <a class="nav-item nav-link btn btn-outline-secondary me-2" href="/add-ad">Add Ad</a>
+                <% if(user){ %>
+                  <a class="nav-item nav-link btn btn-outline-secondary me-2" href="/logout">
+                    Logout <i class="bi bi-box-arrow-right"></i>
                   </a>
-                  <% } %>
+                  <% } else { %>
+                    <a class="nav-item nav-link btn btn-outline-secondary me-2" href="/login">
+                      Admin Login <i class="bi bi-box-arrow-in-right"></i>
+                    </a>
+                    <% } %>
+              </div>
+              <form class="d-flex" action="/search" method="get">
+                <input class="form-control me-2" type="search" placeholder="Search ad by title" aria-label="Search"
+                  name="title">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+              </form>
 
             </div>
           </div>
         </nav>
       </div>
+
 
       <div class="container mt-5">
         <div class="row">
