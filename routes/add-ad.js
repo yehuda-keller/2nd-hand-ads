@@ -53,10 +53,8 @@ router.post('/', async function (req, res, next) {
         // Redirect to home page normally if a new ad is successfully created and no existing email was found
         return res.redirect('/');
     }
-    // Handle any other cases if necessary
+
 });
-
-
 
 
 
