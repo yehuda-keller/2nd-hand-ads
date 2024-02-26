@@ -40,6 +40,9 @@ module.exports = (sequelize) => {
         phoneNumber: {
             type: DataTypes.STRING,
             allowNull: true,
+            validate: {
+                is: /^0\d{2}-?\d{7}$/, // Regex for validating phone number
+            }
         },
         email: {
             type: DataTypes.STRING,

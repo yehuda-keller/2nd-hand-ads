@@ -30,15 +30,34 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', async function (req, res, next) {
-    console.log(req.body);
+    const email = req.body.email;
+    const existsEmail = await db.Ad.findOne({ where: { email } });
+    let adCreated = false;
+
     try {
         const ad = await db.Ad.create(req.body);
-        return res.redirect('/');
+        adCreated = true; // Indicate that the ad was successfully created
     } catch (error) {
         console.log('Error: ', error);
-        const fieldValidtionError = mapValidationErrorToField(error);
-        return res.render('add-ad', { error: fieldValidtionError });
+        const fieldValidationError = mapValidationErrorToField(error);
+        // Render the add-ad page again with validation errors if the ad creation fails
+        return res.render('add-ad', { error: fieldValidationError });
     }
+
+    if (existsEmail && adCreated) {
+        // If the email exists and the ad was created, fetch all necessary data for the index view
+        const ads = await db.Ad.findAll({ where: { approved: true } });
+        // Then, render the index view with a welcome back message, including the newly created ad
+        return res.render('index', { ads, user: req.session.user, message: `Welcome back! ${email}` });
+    } else if (adCreated) {
+        // Redirect to home page normally if a new ad is successfully created and no existing email was found
+        return res.redirect('/');
+    }
+    // Handle any other cases if necessary
 });
+
+
+
+
 
 module.exports = router;

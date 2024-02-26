@@ -4,9 +4,10 @@ const router = express.Router();
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
+
   const ads = await db.Ad.findAll({ where: { approved: true } });
 
-  res.render('index', { ads, user: null });
+  res.render('index', { ads, user: req.session.user });
 });
 
 

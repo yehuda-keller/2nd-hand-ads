@@ -11,58 +11,55 @@
 
 <body>
     <div class="container mt-5">
-        <div>
-            <%= JSON.stringify(error)%>
-        </div>
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <h1 class="card-title text-center">Adding an Ad to the Publication</h1>
+                        <h1 class="card-title text-center">New Ad</h1>
                         <form action="/add-ad" method="POST">
                             <div class="mb-3">
                                 <label for="title" class="form-label">Title</label>
                                 <input type="text" class="form-control" id="title" name="title" required>
-                                <% if (error?.title) { %>
+                                <% if (error && error.title) { %>
                                     <p class="text-danger">
-                                        <%= error.message %>
+                                        <%= error.title %>
                                     </p>
                                     <% } %>
                             </div>
 
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
-                                <input type="text" class="form-control" id="description" name="description">
-                                <% if (error?.description) { %>
+                                <textarea class="form-control" id="description" name="description"></textarea>
+                                <% if (error && error.description) { %>
                                     <p class="text-danger">
-                                        <%= error.message %>
+                                        <%= error.description %>
                                     </p>
                                     <% } %>
                             </div>
                             <div class="mb-3">
                                 <label for="price" class="form-label">Price</label>
                                 <input type="number" class="form-control" id="price" name="price" required>
-                                <% if (error?.price) { %>
+                                <% if (error && error.price) { %>
                                     <p class="text-danger">
-                                        <%= error.message %>
+                                        <%= error.price %>
                                     </p>
                                     <% } %>
                             </div>
                             <div class="mb-3">
                                 <label for="phoneNumber" class="form-label">Phone Number</label>
-                                <input type="number" class="form-control" id="phoneNumber" name="phoneNumber">
-                                <% if (error?.phoneNumber) { %>
+                                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber">
+                                <% if (error && error.phoneNumber) { %>
                                     <p class="text-danger">
-                                        <%= error.message %>
+                                        <%= error.phoneNumber %>
                                     </p>
                                     <% } %>
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" class="form-control" id="email" name="email" required>
-                                <% if (error?.email) { %>
+                                <% if (error && error.email) { %>
                                     <p class="text-danger">
-                                        <%= error.message %>
+                                        <%= error.email %>
                                     </p>
                                     <% } %>
                             </div>
