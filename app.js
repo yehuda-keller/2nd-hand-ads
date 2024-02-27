@@ -51,6 +51,7 @@ app.use('/add-ad', additionRouter);
 app.use('/admin', adminRouter);
 app.use('/search', searchRouter);
 
+
 const db = require('./models');
 
 async function createAdmins() {

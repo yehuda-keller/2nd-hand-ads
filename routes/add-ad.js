@@ -5,7 +5,7 @@ const db = require("../models");
 const router = express.Router();
 
 function mapValidationErrorToField(error) {
-    //Validation error: Validation len on description failed
+
     if (error.message.startsWith('Validation error:')) {
         switch (true) {
             case error.message.includes('title'):
@@ -26,7 +26,7 @@ function mapValidationErrorToField(error) {
 }
 
 router.get('/', function (req, res, next) {
-    res.render('add-ad', { error: null });
+    res.render('add-ad', { error: null, adCreated: false });
 });
 
 router.post('/', async function (req, res, next) {
@@ -36,25 +36,30 @@ router.post('/', async function (req, res, next) {
 
     try {
         const ad = await db.Ad.create(req.body);
-        adCreated = true; // Indicate that the ad was successfully created
+        adCreated = true;
     } catch (error) {
         console.log('Error: ', error);
         const fieldValidationError = mapValidationErrorToField(error);
-        // Render the add-ad page again with validation errors if the ad creation fails
-        return res.render('add-ad', { error: fieldValidationError });
+
+        return res.render('add-ad', { error: fieldValidationError, adCreated: false });
     }
 
     if (existsEmail && adCreated) {
-        // If the email exists and the ad was created, fetch all necessary data for the index view
+
         const ads = await db.Ad.findAll({ where: { approved: true } });
-        // Then, render the index view with a welcome back message, including the newly created ad
-        return res.render('index', { ads, user: req.session.user, message: `Welcome back! ${email}` });
+
+        return res.render('index', { ads, user: req.session.user, message: `Welcome back! ${email} Your ad has been published and is waiting for admin approval`, adCreated: true });
+
+
     } else if (adCreated) {
-        // Redirect to home page normally if a new ad is successfully created and no existing email was found
-        return res.redirect('/');
+
+        const ads = await db.Ad.findAll({ where: { approved: true } });
+
+        return res.render('index', { ads, user: req.session.user, message: `Your ad has been published and is waiting for admin approval`, adCreated: true });
     }
 
 });
+
 
 
 
