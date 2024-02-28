@@ -51,7 +51,6 @@ router.get('/edit/:id', async function (req, res, next) {
 router.get('/', async function (req, res, next) {
     const ads = await db.Ad.findAll();
 
-    //res.render('index', { ads, user: null });
     res.render('index', { ads, user: req.session.user });
 });
 
