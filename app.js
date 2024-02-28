@@ -19,6 +19,7 @@ const searchRouter = require('./routes/search');
 
 
 const app = express();
+app.use(cookieParser());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -66,6 +67,8 @@ async function createAdmins() {
     }
   });
 }
+
+
 
 db.sequelize.sync().then(() => {
   console.log('Database Synced');
