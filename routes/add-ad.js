@@ -33,7 +33,7 @@ router.get('/', function (req, res, next) {
 router.post('/', async function (req, res, next) {
     const email = req.body.email;
     const existsEmail = await db.Ad.findOne({ where: { email } });
-    const adDate = existsEmail.createdAt;
+
 
 
 
@@ -53,7 +53,7 @@ router.post('/', async function (req, res, next) {
 
         const ads = await db.Ad.findAll({ where: { approved: true } });
 
-        return res.render('index', { ads, user: req.session.user, message: `Welcome back! ${email} last time seen ${adDate} Your ad has been published and is waiting for admin approval`, adCreated: true });
+        return res.render('index', { ads, user: req.session.user, message: `Welcome back! ${email} Your ad has been published and is waiting for admin approval`, adCreated: true });
 
 
     } else if (adCreated) {
